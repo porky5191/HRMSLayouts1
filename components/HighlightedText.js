@@ -10,7 +10,7 @@
  //********************************* FUNCTIONAL COMPONENT ****************************************
  const Input = props => {
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={props.onPress}>
             <Text style={{...styles.text, ...props.style}}>
                 {props.children}
             </Text>

@@ -2,12 +2,12 @@
  * This file is to navigate around different screens
  */
 import React from 'react';
-//Navigation
-import { createStackNavigator } from '@react-navigation/stack'
-import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack' //Navigation
+import { NavigationContainer } from '@react-navigation/native' //Navigation
 
 import { Login, ForgotPassword } from '../screens/index'
 import { Colors } from '../res/index';
+import { ScreenNames } from '../constants/index'
 
 
 //create two const to create the Navigator
@@ -18,7 +18,7 @@ const Navigation = () => {
     <NavigationContainer>
       {/* This container is to navigate around different screen */}
       <Navigator>
-        <Screen name='Sign In' component={Login} options={{
+        <Screen name={ScreenNames.LOGIN} component={Login} options={{
           headerStyle: {
             backgroundColor: Colors.primary.regular,
           },
@@ -28,7 +28,15 @@ const Navigation = () => {
           },
         }}
         />
-        <Screen name='forgotPassword' component={ForgotPassword} />
+        <Screen name={ScreenNames.FORGOT_PASSWORD} component={ForgotPassword} options={{
+          headerStyle: {
+            backgroundColor: Colors.primary.regular,
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}/>
       </Navigator>
     </NavigationContainer>
   )

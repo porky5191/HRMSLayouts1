@@ -4,39 +4,40 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, Dimensions, Text } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 
 import { Colors } from '../res/index'
 import { RoundedButton, RoundedInput, HighlightedText, LogInContainer } from '../components/index'
+import { ScreenNames } from '../constants/index'
+
 
 
 
 //********************************* FUNCTIONAL COMPONENT ****************************************
 const Login = props => {
-
     //================================ ALL STATES ============================================
-    const [screen, setScreen] = useState(Dimensions.get('screen')) //state to keep track of screenSize
+    const [screen, setScreen] = useState(Dimensions.get('window')) //state to keep track of screenSize
 
     const inputRef1 = useRef()
     const inputRef2 = useRef()
     const inputRef3 = useRef()
-    console.log(inputRef1)
-    
+    // console.log(inputRef1)
+
+    //To update the buttons based on screen sizes everytime the orientation changes
+    useEffect(() => {
+        // inputRef1.current.focus()
+        Dimensions.addEventListener('change', ()=>{ setScreen(Dimensions.get('window')) }) 
+    }, [])
+
+    //================================ USER DEFINED VARIABLE ============================================
+    //passing screen variable to screen
+    const styles = getStyles(screen)
 
 
     //=========================== USER DEFINED FUNCTIONS =====================================
-    //To update the buttons based on screen sizes everytime the orientation changes
-
-    useEffect(() => {
-        // inputRef1.current.focus()
-
-        const updateDimension = () => setScreen(Dimensions.get('window'))
-
-        //Listen when orientation has changed and do something
-        Dimensions.addEventListener('change', updateDimension)
-        return Dimensions.removeEventListener('change', updateDimension) //remove the old listener and set new listener
-    }, [])
-
+    const forgotPasswordHandler = () => {
+        props.navigation.navigate(ScreenNames.FORGOT_PASSWORD)
+    }
 
 
     // **************************************** RETURN **********************************************
@@ -53,47 +54,21 @@ const Login = props => {
             />
             <RoundedInput ref={inputRef3} placeholder='last 4 digits of SSN'
                 keyboardType='number-pad' blurOnSubmit={true} returnKeyType={"done"} style={styles.input}
-
             />
             <RoundedButton style={styles.button}>Sign In</RoundedButton>
-            <HighlightedText style={styles.highlightedText}>Forgot Password</HighlightedText>
+            <HighlightedText style={styles.highlightedText} onPress={forgotPasswordHandler}>Forgot Password</HighlightedText>
         </LogInContainer>
     )
 }
 
-//*************************************** HEADER OPTIONS *********************************************
-// This is optional property to style header
-/*
-Login.navigationOptions = (navigationData) => {
-    return {
-        headerTitle: 'LogIn',
-        headerStyle:{
-            backgroundColor: Colors.primary.regular
-        },
-        headerTintColor: Colors.grey[800]
-    }
-}
-*/
-
 
 //********************************************** STYLING *********************************************
-const styles = StyleSheet.create({
+const getStyles = screen => StyleSheet.create({
     screen: {
         width: '100%',
         height: '100%',
         flex: 1,
         backgroundColor: Colors.primary.regular
-    },
-    mainContainer: {
-        width: '100%',
-        height: '100%',
-        // marginTop: 90,
-        borderTopRightRadius: 30,
-        borderTopLeftRadius: 30,
-        backgroundColor: Colors.white.max,
-        paddingLeft: 30,
-        paddingRight: 30,
-        paddingTop: 80
     },
     button: {
         width: '100%',
